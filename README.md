@@ -1,6 +1,12 @@
 ThinkPHP 6.0
 ===============
 
+
+##简单的tp6后台，实现了权限设置和菜单管理
+
+
+
+
 > 运行环境要求PHP7.1+。
 
 [官方应用服务市场](https://market.topthink.com) | [`ThinkPHP`开发者扶持计划](https://sites.thinkphp.cn/1782366)
