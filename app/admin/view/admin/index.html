@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>权限组管理</title>
+  <link rel="stylesheet" href="/static/admin/layui/css/layui.css" media="all">
+  <script src="/static/admin/jquery/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-row">
+    <div class="layui-col-md3">
+      <a href="#" onclick="addAdmin()" class="layui-btn layui-btn-danger">新增</a>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table id="table" lay-data="{id: 'idTest'}" lay-filter="test"></table>
+  </div>
+</div>
+<script src="/static/admin/layui/layui.js" charset="utf-8"></script>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-sm" lay-event="admin_edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="admin_del">删除</a>
+</script>
+<script type="text/javascript">
+  var reload;
+  layui.use('table',function(){
+    var table = layui.table;
+    var tableIns = table.render({
+      elem: '#table'
+      //,height: 600
+      ,url: "{:url('admin/admin_list')}" //数据接口
+      ,page: false //开启分页
+      ,id: 'idTest'
+      ,cols: [[ //表头
+        {type:'numbers', title: '序号', width:60}
+        ,{field: 'admin_name', title: '用户名',align:'center'}
+        ,{field: 'truename', title: '名称',align:'center'}
+        ,{field: 'login_time', title: '登陆时间',align:'center',templet: "<div>{{layui.util.toDateString(d.login_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+        ,{field: 'login_ip', title: '最近IP',align:'center'}
+        ,{field: 'create_time', title: '创建时间',align:'center',templet: "<div>{{layui.util.toDateString(d.create_time, 'yyyy-MM-dd')}}</div>"}
+        ,{field: 'power_team', title: '权限组',align:'center'}
+        ,{field: 'is_delete', title: '状态',templet:function (d) {
+            return d.is_delete == 0 ? "正常" : "禁用";
+          }}
+        ,{field: 'right', title: '操作',align:'center',width:300,toolbar:"#barDemo"}
+      ]]
+    });
+
+    //搜索
+    $('#searchBtn').click(function(){
+      reload();
+    });
+
+    //重载
+    reload = function (){
+      tableIns.reload({
+        where: {
+          select:$('#type').val()
+        }
+        ,page: {
+          curr: 1 //重新从第 1 页开始
+        }
+      });
+    }
+
+    //监听工具条
+    table.on('tool(test)', function(obj){
+      var data = obj.data;
+      if(obj.event === 'admin_edit'){
+        addAdmin(data.id);
+      }
+      if(obj.event === 'admin_del'){
+        if(data.id === 1){
+          layer.msg('超级管理员禁止删除!')
+          return false;
+        }
+        layer.confirm('确定要删除吗？',{
+          btn:['确定','取消']
+          ,btn2:function (index) {
+            layer.close(index)
+          }
+        },function (index) {
+          $.ajax({
+            type : "POST",  //提交方式
+            url : "{:url('admin/admin_del')}",//路径
+            data : {
+              "id" : data.id,
+            },
+            success: function(data){
+              if(data.code === 0){
+                layer.msg('操作成功！')
+                reload();
+              }else{
+                layer.msg('操作失败！')
+              }
+            }
+          })
+        })
+      }
+    });
+  });
+
+  $('select').change(function () {
+    reload();
+  })
+
+  function addAdmin(id=0){
+    var url,sub_url,title
+    if(id == 0){
+      url = "{:url('admin/admin_add')}";
+      sub_url = "{:url('admin/admin_add')}";
+      title = '新增';
+    }else{
+      url = "{:url('admin/admin_edit')}?id=" + id;
+      sub_url = "{:url('admin/admin_edit')}";
+      title = '修改';
+    }
+    var index = layer.open({
+      type: 2,
+      title: title,
+      id:"layer_addadmin",
+      area: ['500px', '450px'],
+      content: url,
+      btn:["保存","关闭"],
+      btn1:function () {
+        var _$ = $("#layer_addadmin").find("iframe")[0].contentWindow.layui.jquery;
+        var _form = $("#layer_addadmin").find("iframe")[0].contentWindow.layui.form;
+        _form.on('submit(formDemo)', function(data){
+          var d = data.field;
+          $.ajax({
+            url:sub_url,
+            type:"post",
+            data: d,
+            success:function (ret) {
+              layer.msg(ret['msg']);
+              if(ret['code'] == 0){
+                layer.close(index)
+                reload();
+              }
+            }
+          });
+          return false;
+        });
+        _$("#formDemo").click();
+      },
+      btn2:function () {
+        layer.close(index)
+      }
+    })
+    // layer.full(index);
+  }
+
+</script>
+</body>
+</html>

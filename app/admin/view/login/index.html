@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$site_name}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" href="/static/admin/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/static/admin/login/css/admin_login.css"/>
+</head>
+<body>
+<div class="continer">
+    <img src="/static/admin/image/logo.png" height="512" width="512"  class="logo"/>
+    <p class="login-title">{$site_name}管理平台</p>
+    <form class="login-form" action="" method="post">
+        <input type="text" id="user_name" placeholder="输入账号" />
+        <input type="password" id="user_pass" placeholder="输入密码" />
+        <p>
+            <a href="javascript:;">
+                <!--						提示：如有问题 请联系运营专员-->
+            </a>
+        </p>
+        <input type="button" onclick="login()" value="登录"/>
+    </form>
+</div>
+
+<!-- jQuery -->
+{js href="/static/admin/jquery/jquery-3.6.0.min.js" /}
+<!-- layer-->
+{js href="/static/admin/layui/layui.js" /}
+<!-- ManagerLogin-->
+{js href="/static/admin/login/js/ManagerLogin.js" /}
+<!--md5-->
+{js href="/static/admin/login/js/md5.js" /}
+<script type="text/javascript">
+    $(document).keydown(function (event) {
+
+        var enter = event.KeyCode || window.event.KeyCode;  //如果点击的为Ctrl键，ctrl为true
+
+        switch (event.keyCode) {
+            case 13:
+                login();
+        }
+    })
+
+    $("#btnLogin").click(function () {
+        login();
+    });
+
+    function login() {
+        var name = $("#user_name").val();
+        var pass = $("#user_pass").val();
+        if (name === "" || name == null) {
+            layer.msg("请填写用户名");
+            return false;
+        }
+        if (pass == null || pass === "") {
+            layer.msg("请填写密码")
+            return false;
+        }
+        // pass = MD5(pass);
+        $.ajax({
+            url: "{:url('admin/login/login')}",
+            type: 'post',
+            data: {'name': name, 'pass': pass},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                if (data.status === 0) {
+                    layer.msg(data.msg,{icon:1,time:1000});
+                    location.href = "{:url('/admin')}";
+                } else {
+                    layer.msg(data.msg,{icon:5,time:1000});
+                }
+            },
+            error:function(data,type, err){
+                console.log(data);
+                console.log("ajax错误类型："+type);
+                console.log(err);
+                console.log('请求出错！');
+            }
+        })
+    }
+</script>
+</body>
+</html>
