@@ -136,7 +136,9 @@
             success:function (ret) {
               layer.msg(ret['msg']);
               if(ret['code'] == 0){
-                layer.close(index)
+                setTimeout(function () {
+                  layer.close(index);
+                }, 2000);
                 reload();
               }
             }

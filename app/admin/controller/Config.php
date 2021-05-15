@@ -12,5 +12,5 @@ namespace app\admin\controller;
 class Config
 {
     #网站名称
-    public static $site_name = "mottruyen";
+    public static $site_name = "tp_admin";
 }

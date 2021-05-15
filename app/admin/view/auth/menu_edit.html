@@ -68,16 +68,20 @@
                 url : "{:url('/admin/auth/menu_edit')}",//路径
                 data : $('form').serialize(),
                 success: function(data){
-                    // layer.msg(data.msg)
+                    layer.msg(data.msg)
                     if(data.code == 0){
-                        setTimeout("CloseMyMsg()", 2000);
-                        parent.location.reload();
+                        setTimeout(function () {
+                            // layer.close(index);
+                            parent.location.reload();
+                        }, 2000);
+
                     }
                 }
             });
             return false;
         });
     });
+
 </script>
 </body>
 </html>
