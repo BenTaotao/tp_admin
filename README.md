@@ -9,7 +9,7 @@ ThinkPHP 6.0
 > 超级管理员账号 admin 123456
 
 ##nginx伪静态
-```php
+```md
 if (!-e $request_filename) {
     rewrite  ^/index.php(.*)$  index.php?s=/$1  last;
         rewrite  ^(.*)$  /index.php?s=/$1  last;
@@ -17,7 +17,7 @@ if (!-e $request_filename) {
 }
 ```    
 ##Apache伪静态
-```php
+```md
 <IfModule mod_rewrite.c>
   Options +FollowSymlinks -Multiviews
   RewriteEngine On
