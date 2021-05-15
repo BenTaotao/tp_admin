@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理员操作</title>
+    <link rel="stylesheet" href="/static/admin/layui/css/layui.css" media="all">
+    <script src="/static/admin/jquery/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <form action="" class="layui-form">
+        <input type="hidden" value="{$data.id}" name="id">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="admin_name" required  lay-verify="required" autocomplete="off" class="layui-input" value="{$data.admin_name}" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="truename" required  lay-verify="required" autocomplete="off" class="layui-input" value="{$data.truename}" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="admin_pwd" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="密码">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="admin_pwd2" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="确认密码">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" id="formDemo">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/static/admin/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $pass = $("input[name='admin_pwd']").val();
+            $pass2 = $("input[name='admin_pwd2']").val();
+            if ($pass != $pass2){
+                layer.msg("两次密码不一致")
+                return false;
+            }
+            $.ajax({
+                type : "POST",  //提交方式
+                url : "{:url('admin/admin_uppass')}",//路径
+                data : $('form').serialize(),
+                success: function(data){
+                    layer.msg(data.msg,{icon: 6,time: 3000})
+                    if(data.code == 0){
+                        var  index= parent.layer.getFrameIndex(window.name);
+                        setTimeout(function () {
+                            parent.layer.close(index);
+                        }, 3000);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
