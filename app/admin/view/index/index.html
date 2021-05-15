@@ -25,7 +25,7 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">信息设置</a></dd>
-                    <dd><a href="">修改密码</a></dd>
+                    <dd><a id="update_pwd">修改密码</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="">退出</a></li>
@@ -93,6 +93,19 @@
             //console.log(elem)
             layer.msg(elem.text());
         });
+
+        /*修改密码*/
+        $("#update_pwd").click(function () {
+            var $id = "{$admin_info['id']}";
+            var index = layer.open({
+                title : "修改密码",
+                type : 2,
+                id:"layer_updatepassword",
+                area: ['600px', '600px'],
+                content : "{:url('admin/admin_uppass')}?id="+$id,
+            });
+        });
+
     });
 
     // 添加选项卡

@@ -9,6 +9,7 @@
 namespace app\admin\controller;
 
 
+use app\Request;
 use think\Exception;
 use think\facade\Db;
 use \think\facade\View;
@@ -103,4 +104,25 @@ class Admin extends Common
         }
     }
 
+    public function admin_uppass(){
+        if (request()->isAjax()) {
+            $id = input('id');
+            $admin_pwd = input('admin_pwd');
+            if ($admin_pwd){
+                $admin_pwd = md5($admin_pwd);
+                $res = Db::name('admin')->where(['id' => $id])->update(['admin_pwd' => $admin_pwd]);
+                if ($res) {
+                    return ajaxTable(0, 'success');
+                } else {
+                    #write_log("删除失败:","Admin","Error");
+                    return ajaxTable(1, 'fail');
+                }
+            }
+            return ajaxTable(1, 'fail');
+        }
+        $id = input('id');
+        $data = Db::name('admin')->where(['id' => $id])->find();
+        view::assign('data',$data);
+        return view::fetch();
+    }
 }
