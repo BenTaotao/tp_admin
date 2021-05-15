@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 14/05/2021 18:23:22
+ Date: 15/05/2021 09:06:35
 */
 
 SET NAMES utf8mb4;
@@ -38,15 +38,15 @@ CREATE TABLE `xt_admin`  (
   `intro` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `qrcode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '二维码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '后台管理员表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '后台管理员表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of xt_admin
 -- ----------------------------
 INSERT INTO `xt_admin` VALUES (1, 'admin', '超级管理员', '', 'e10adc3949ba59abbe56e057f20f883e', 1620977159, '127.0.0.1', 0, 1, 0, 0, '', '', NULL, '');
-INSERT INTO `xt_admin` VALUES (20, 'liuyang', '刘洋', '', '445a6f975e58ed7cb696ca034140aae2', 1606895054, '36.46.161.120', 1606894776, 1, 0, 0, '', '', NULL, '');
-INSERT INTO `xt_admin` VALUES (21, 'chengbin', '程彬', '', 'fe35c960aeb94b7e65ceed4b8992f4f5', 1606900381, '36.46.161.120', 1606896163, 2, 0, 0, '', '', NULL, '');
-INSERT INTO `xt_admin` VALUES (22, 'geluqi', '葛璐琦', '', '022798d51e32c743000956a9b2eeab9d', 1606901352, '192.200.115.226', 1606896284, 2, 0, 0, '', '', NULL, '');
+INSERT INTO `xt_admin` VALUES (20, 'liuyang', '白白', '', '445a6f975e58ed7cb696ca034140aae2', 1606895054, '36.46.161.120', 1606894776, 1, 0, 0, '', '', NULL, '');
+INSERT INTO `xt_admin` VALUES (21, 'chengbin', '嘿嘿', '', 'fe35c960aeb94b7e65ceed4b8992f4f5', 1606900381, '36.46.161.120', 1606896163, 2, 0, 0, '', '', NULL, '');
+INSERT INTO `xt_admin` VALUES (22, 'geluqi', '小白白', '', '022798d51e32c743000956a9b2eeab9d', 1606901352, '192.200.115.226', 1606896284, 2, 0, 0, '', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for xt_admin_author
