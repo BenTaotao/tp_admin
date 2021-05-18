@@ -18,8 +18,7 @@ class Login
 {
     public function __construct()
     {
-        #$site_name = "XTadmin";
-        $site_name = "越南语";
+        $site_name = Config::$site_name;
         View::assign('site_name',$site_name);
     }
 
