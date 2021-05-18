@@ -12,5 +12,5 @@ namespace app\admin\controller;
 class Config
 {
     #网站名称
-    public static $site_name = "tp_admin";
+    public static $site_name = "通用后台管理";
 }
